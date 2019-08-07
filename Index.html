@@ -1,14 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <title>Document</title>
+   <meta charset="utf-8">
+   <title>Recently Dead Muscians</title>
+  
+   <link rel="stylesheet"
+       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css">   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
+    <br><br>
+    <h1>Recently Dead Muscians</h1>
+    <br><br>
+ 
+   <button type="button" class="btn btn-purple" data-search="Prince">Prince</button>
+   <button type="button" class="btn btn-purple" data-search="George Michael">George Michael</button>
+   <button type="button" class="btn btn-purple" data-search="Debbie Reynolds">Debbie Reynolds</button>
+   <button type="button" class="btn btn-purple" data-search="Leonard Cohen">Leonard Cohen</button>
+   <button type="button" class="btn btn-purple" data-search="Glenn Frey">Glenn Frey</button>
+   <button type="button" class="btn btn-purple" data-search="David Bowie">David Bowie</button>
+   <button type="button" class="btn btn-purple" data-search="Sharon Jones">Sharon Jones</button>
+   <button type="button" class="btn btn-purple" data-search="Merle Haggard">Merle Haggard</button>
+   <br><br>
+
+   <br><br>
+    <h1>Currently Living Musicians and/or Bands</h1>
+    <br><br>
+ 
+    <button type="button" class="btn btn-purple" data-search="George Clinton">George Clinton</button>
+    <button type="button" class="btn btn-purple" data-search="Madonna">Madonna</button>
+    <button type="button" class="btn btn-purple" data-search="Billy Joel">Billy Joel</button>
+    <button type="button" class="btn btn-purple" data-search="Elton John">Elton John</button>
+    <button type="button" class="btn btn-purple" data-search="Jason Isbell">Jason Isbell</button>
+    <button type="button" class="btn btn-purple" data-search="Culture Club">Culture Club</button>
     
+    <br><br>
+
+
+   
+
+   <div id="GIFArea"></div>
+   <script type="text/javascript">
+       $('button').on("click", function () {
+           var x = $(this).data("search")
+           var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + x + "&api_key=jk92ejWlxe2OrTcIMoR8D5thfcuJyakh&limit=10";
+           $.ajax({ url: queryURL, method: 'GET' })
+               .done(function (response) {
+                   console.log(response);
+                   for (var i = 0; i < response.data.length; i++) {
+                       $("#GIFArea").prepend("<p>Rating: " + response.data[i].rating + "</p>");
+                       $("#GIFArea").prepend("<img src='" + response.data[i].images.downsized.url + "'>");
+                   }
+               })
+       })
+   </script>
+   </div>
+   <div class="container">
+      
+       <form id="entertainer-form">
+           <label for="entertainer-input">Search for a Muscian or Band:</label>
+           <input type="text" id="entertainer-input"><br>
+           <input id="find-entertainer" type="submit" value="Entertainer Search">
+       </form>
+       <div id="entertainer-view"></div>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <script type="text/javascript">
+           $("#find-entertainer").on("click", function (event) {
+               event.preventDefault();
+               var entertainer = $("#entertainer-input").val();
+               var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + entertainer + "&api_key=jk92ejWlxe2OrTcIMoR8D5thfcuJyakh&limit=10"
+               $.ajax({
+                   url: queryURL,
+                   method: "GET"
+               }).then(function (response) {
+                   $("#entertainer-view").prepend("<p>Rating: " + response.entertainer.rating + "</p>");
+$("#entertainer-view").prepend("<img src='" + response.entertainer.downsized.url + "'>");
+               });
+           });
+       </script>
 </body>
 </html>
